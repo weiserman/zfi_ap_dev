@@ -1,0 +1,77 @@
+@Metadata.layer: #CUSTOMER
+@UI: {
+  headerInfo: {
+    typeName: 'OcrConfiguration', 
+    typeNamePlural: 'OcrConfigurations', 
+    title: {
+      type: #STANDARD, 
+      label: 'OCR Configuration', 
+      value: 'OcrType'
+    }
+  }
+}
+annotate view ZI_OcrConfiguration with
+{
+  @UI.identification: [ {
+    position: 1 
+  } ]
+  @UI.lineItem: [ {
+    position: 1 
+  } ]
+  @UI.facet: [ {
+    id: 'ZI_OcrConfiguration', 
+    purpose: #STANDARD, 
+    type: #IDENTIFICATION_REFERENCE, 
+    label: 'OCR Configuration', 
+    position: 1 
+  } ]
+  OcrType;
+  
+  @UI.identification: [ {
+    position: 2 
+  } ]
+  @UI.lineItem: [ {
+    position: 2 
+  } ]
+  OcrTypeDescription;
+  
+  @UI.identification: [ {
+    position: 3 
+  } ]
+  @UI.lineItem: [ {
+    position: 3 
+  } ]
+  AwsS3PromptBucket;
+  
+  @UI.identification: [ {
+    position: 4 
+  } ]
+  @UI.lineItem: [ {
+    position: 4 
+  } ]
+  AwsS3PromptObjectKey;
+  
+  @UI.identification: [ {
+    position: 5 
+  } ]
+  @UI.lineItem: [ {
+    position: 5 
+  } ]
+  AwsOptForceTextractRedo;
+  
+  @UI.identification: [ {
+    position: 6 
+  } ]
+  @UI.lineItem: [ {
+    position: 6 
+  } ]
+  AwsOptLlmOnly;
+  
+  @UI.identification: [ {
+    position: 7 
+  } ]
+  @UI.lineItem: [ {
+    position: 7 
+  } ]
+  AwsBedrockModelId;
+}

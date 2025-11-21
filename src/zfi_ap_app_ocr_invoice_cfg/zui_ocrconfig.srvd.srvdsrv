@@ -1,0 +1,5 @@
+@ObjectModel.leadingEntity.name: 'ZI_OcrConfiguration_S'
+define service ZUI_OCRCONFIG {
+  expose ZI_OCRCONFIGURATION_S as OcrConfigurationAll;
+  expose ZI_OCRCONFIGURATION as OcrConfiguration;
+}

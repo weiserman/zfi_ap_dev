@@ -1,0 +1,92 @@
+managed with additional save implementation in class ZBP_I_OCRCONFIG_S unique;
+strict;
+with draft;
+define behavior for ZI_OcrConfiguration_S alias OcrConfigurationAll
+draft table ZAP_A_OCR_C_D_S
+with unmanaged save
+lock master total etag LastChangedAtMax
+authorization master( global )
+{
+  field ( readonly )
+   SingletonID;
+
+  field ( features : instance )
+   TransportRequestID;
+
+  field ( notrigger )
+   SingletonID,
+   LastChangedAtMax;
+
+
+  update;
+  internal create;
+  internal delete;
+
+  draft action ( features : instance ) Edit with additional implementation;
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Resume;
+  draft determine action Prepare;
+  action ( features : instance ) SelectCustomizingTransptReq parameter D_SelectCustomizingTransptReqP result [1] $self;
+
+  association _OcrConfiguration { create ( features : instance ); with draft; }
+
+  validation ValidateTransportRequest on save ##NOT_ASSIGNED_TO_DETACT { create; update; }
+
+  side effects {
+    action SelectCustomizingTransptReq affects $self;
+  }
+
+}
+
+define behavior for ZI_OcrConfiguration alias OcrConfiguration ##UNMAPPED_FIELD
+persistent table ZAP_A_OCR_CFG
+draft table ZAP_A_OCR_CFG_D
+etag master LocalLastChangedAt
+lock dependent by _OcrConfigurationAll
+authorization dependent by _OcrConfigurationAll
+{
+  field ( mandatory : create )
+   OcrType;
+
+  field ( readonly )
+   SingletonID,
+   LocalCreatedBy,
+   LocalCreatedAt,
+   LocalLastChangedBy,
+   LocalLastChangedAt;
+
+  field ( readonly : update )
+   OcrType;
+
+  field ( notrigger )
+   SingletonID,
+   LocalCreatedBy,
+   LocalCreatedAt,
+   LocalLastChangedBy,
+   LocalLastChangedAt;
+
+
+  update( features : global );
+  delete( features : global );
+
+  mapping for ZAP_A_OCR_CFG
+  {
+    OcrType = OCR_TYPE;
+    OcrTypeDescription = OCR_TYPE_DESCRIPTION;
+    AwsS3PromptBucket = AWS_S3_PROMPT_BUCKET;
+    AwsS3PromptObjectKey = AWS_S3_PROMPT_OBJECT_KEY;
+    AwsOptForceTextractRedo = AWS_OPT_FORCE_TEXTRACT_REDO;
+    AwsOptLlmOnly = AWS_OPT_LLM_ONLY;
+    AwsBedrockModelId = AWS_BEDROCK_MODEL_ID;
+    LocalCreatedBy = LOCAL_CREATED_BY;
+    LocalCreatedAt = LOCAL_CREATED_AT;
+    LocalLastChangedBy = LOCAL_LAST_CHANGED_BY;
+    LocalLastChangedAt = LOCAL_LAST_CHANGED_AT;
+  }
+
+  association _OcrConfigurationAll { with draft; }
+
+  validation ValidateTransportRequest on save ##NOT_ASSIGNED_TO_DETACT { create; update; delete; }
+
+}

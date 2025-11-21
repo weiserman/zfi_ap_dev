@@ -1,0 +1,5 @@
+@MappingRole: true
+define role ZI_OcrConfiguration {
+  grant select on ZI_OcrConfiguration
+  where ( ) = ASPECT pfcg_auth ( 'S_TABU_NAM', ACTVT = '03', TABLE = 'ZI_OCRCONFIGURATION' );
+}
